@@ -1,0 +1,3 @@
+This folder consists of preprocessing steps
+
+Some steps are common, others are required in worst cases, where absolutely raw data is provided
