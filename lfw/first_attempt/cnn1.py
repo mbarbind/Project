@@ -9,6 +9,7 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.optimizers import adam, SGD, RMSprop
 
+# x_train_new.npy & y_train_new.npy are files in which my LFW data is currently stored
 xtd = np.load('x_train_new.npy')
 ytd = np.load('y_train_new.npy')
 
@@ -19,6 +20,7 @@ ip_shape = xtd[0].shape
 # >> ip_shape
 # out: [50, 37, 1]
 
+# play around with this s**t
 model = Sequential()
 model.add(Conv2D(32, (3,3), input_shape=in_shape))
 model.add(Activation('relu'))
@@ -44,20 +46,22 @@ model.output_shape
 
 model.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
 
+# here we don't have validation data, so using first option. If you have it, use second option
 hist = model.fit(xtd, ytd, batch_size=32, num_epoch=20, verbose=1, validation_split=0.2)
 #or
-hist = model.fit(xtd, ytd, batch_size=32, num_epoch=20, verbose=1, validation_data=(x_test,y_test))
+hist = model.fit(xtd, ytd, batch_size=32, num_epoch=20, verbose=1, validation_data=(x_val,y_val))
 
 
 #done with the training!
 with open('trained_nn.pickle','wb') as f:
 	pickle.dump(hist, f)
 
-#for testing 
+#for testing, uncomment print statement if you want to check accuracy
 score = model.evaluate(xtd[0:100], ytd[0:100], show_accuracy=True, verbose=0)
 loss, accuracy = score[0], score[1]
 # >> print(loss, accuracy)
 
+#again, i have testing data in 'x_test.npy'
 test_images = npy.load('x_test.npy')
 for img in test_images:
 	print(model.predict(img))
