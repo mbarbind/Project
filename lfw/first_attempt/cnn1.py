@@ -55,6 +55,9 @@ hist = model.fit(xtd, ytd, batch_size=32, num_epoch=20, verbose=1, validation_da
 #done with the training!
 with open('trained_nn.pickle','wb') as f:
 	pickle.dump(hist, f)
+	
+#better way
+model.save('trained_nn1.h5')
 
 #for testing, uncomment print statement if you want to check accuracy
 score = model.evaluate(xtd[0:100], ytd[0:100], show_accuracy=True, verbose=0)
